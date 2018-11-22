@@ -24,6 +24,7 @@ def carregaDados(automato):
 
 def MontaTabelaAFD():
     print("x")
+    print(x)
 
 
 def main():
