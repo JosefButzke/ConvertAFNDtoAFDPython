@@ -14,27 +14,36 @@ def carregaDados(automato):
     automato.estados = base[0]
     automato.estadoInicial = base[1]
     automato.estadosFinais = base[2]
-    automato.transicoes = base[3:]
+
+    for linha in base[3:]:
+        automato.transicoes.append([linha[0:2], linha[3:4], linha[5:7]])
 
     letrasDoArquivo = []
     for i in automato.transicoes:
-        letrasDoArquivo.append(i[2])
+        letrasDoArquivo.append(i[1])
 
-    automato.alfabeto = set(letrasDoArquivo)
+    automato.alfabeto = sorted(set(letrasDoArquivo))
 
-def MontaTabelaAFD():
-    print("x")
-    print(x)
+def montarTabelaAFDInicial(automato):
+    tabelaAFD = pd.DataFrame(columns= automato.alfabeto, index= [automato.estadoInicial])
 
+    for letra in automato.alfabeto:
+        destino = ''
+        for transicao in automato.transicoes:
+            if(letra == transicao[1] and transicao[0] == automato.estadoInicial):
+                destino = destino + transicao[2]
+                tabelaAFD.ix[automato.estadoInicial,letra] = destino
+            else:
+                destino = ''
+
+
+
+    print(tabelaAFD)
 
 def main():
     automato = Automato()
     carregaDados(automato)
-    print(automato.estados)
-    print(automato.estadoInicial)
-    print(automato.estadosFinais)
-    print(automato.transicoes)
-    print(automato.alfabeto)
+    montarTabelaAFDInicial(automato)
 
 if __name__ == "__main__":
     main()
